@@ -1,0 +1,245 @@
+openapi: 3.0.0
+
+info:
+  description: "API projeto UGE"
+  version: "0.0.1"
+  title: "Projeto UGE"
+
+servers:
+  - url: http://localhost:3333
+    description: Local server
+
+tags:
+  - name: "Produtos"
+    description: "CRUD produtos"
+  - name: "Usuarios"
+    description: "CRUD usuarios"
+  - name: "Login"
+    description: "CRUD login"
+  - name: "Estoque"
+    description: "CRUD estoque"
+
+paths:
+  /produtos?offset={offset}&pageSize={pageSize}:
+    get:
+      tags:
+        - "Produtos"
+      summary: Retorna uma lista de produtos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: offset
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: pageSize
+          required: true
+          schema:
+            type: integer
+      description: Busca todos os Produtos
+      responses:
+        "200":
+          description: A JSON array of produtos names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Produtos"
+        "500":
+          description: Internal Server Error
+  /produtos:
+    post:
+      tags:
+        - "Produtos"
+      summary: Cria um novo produto.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produtos" # <-------
+      responses:
+        "201":
+          description: '{"message": "Produto criado com sucesso!"}'
+        "500":
+          description: Internal Server Error
+  /produtos/{id}:
+    put:
+      tags:
+        - "Produtos"
+      summary: Atualiza um produto
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produtos"
+      responses:
+        "200":
+          description: '{"message": "Produto com id: {id} foi atualizado com sucesso!"}'
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+        - "Produtos"
+      summary: Deleta um produto
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: '{"message": "Produto com id: {id} foi excluido com sucesso!"}'
+        "404":
+          description: '{"error": "erro ao tentar excluir produto com id: {id}!"}'
+        "500":
+          description: Internal server error
+
+  /usuarios:
+    post:
+      tags:
+        - "Usuarios"
+      summary: Criar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuarios"
+      responses:
+        "201":
+          description: '{"Sucesso": "Usuario criado com sucesso! id: {id}"}'
+        "500":
+          description: '{"Error": "erro ao criar usuario!"}'
+
+  /usuarios/{id}:
+    put:
+      tags:
+        - "Usuarios"
+      summary: Atualiza um determinado usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuarios"
+      responses:
+        "200":
+          description: '{"Sucesso": "Dados atualizados com sucesso!"}'
+        "401":
+          description: '{"Usuario nao autorizado"}'
+        "403":
+          description: Forbidden
+
+    delete:
+      tags:
+        - "Usuarios"
+      summary: Deleta uma conta de usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: '{"Sucesso": "Dados atualizados com sucesso!"}'
+        "401":
+          description: '{"Usuario nao autorizado"}'
+        "403":
+          description: Forbidden
+
+  /auth/login:
+    post:
+      tags:
+        - "Login"
+      summary: Login de usuarios.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "201":
+          description: '{"Sucesso": "Login realizao com sucesso!"}'
+        "500":
+          description: '{"Error": "email ou senha invalida!"}'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Auth header (Authorization) Access Token"
+  schemas:
+    Produtos:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Geladeira
+        dt_ult_compra:
+          type: string
+          example: 12092022
+        ult_preco:
+          type: string
+          example: 1299.90
+        id_categoria:
+          type: string
+          example: 1
+    Usuarios:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "Lucas"
+        email:
+          type: string
+          example: "teste@teste.com"
+        senha:
+          type: string
+          example: "dsokfsod"
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "teste@teste.com"
+        senha:
+          type: string
+          example: "dsokfsod"
