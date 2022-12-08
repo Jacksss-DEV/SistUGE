@@ -2,8 +2,10 @@
 
 import 'package:advanced_datatable/advanced_datatable_source.dart';
 import 'package:advanced_datatable/datatable.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../produtos/models/produto_model.dart';
@@ -117,6 +119,9 @@ class _EstoquePageState extends State<EstoquePage> {
                   DataColumn(
                     label: Text('Saída'),
                   ),
+                  DataColumn(
+                    label: Text('Atualizar'),
+                  ),
                 ],
                 getFooterRowText:
                     (startRow, pageSize, totalFilter, totalRowsWithoutFilter) {
@@ -186,6 +191,7 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
     final controllerELocalidade = TextEditingController();
     final controllerEDtUltCompra = TextEditingController();
     final controllerEUltPreco = TextEditingController();
+    final controllerEAtualizar = TextEditingController();
     final controllerEEntrada = TextEditingController();
     final controllerESaida = TextEditingController();
 
@@ -212,6 +218,113 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
         DataCell(Text("${lastDetails!.rows[index].localidade}")),
         DataCell(Text("${lastDetails!.rows[index].dt_entrada}")),
         DataCell(Text("${lastDetails!.rows[index].dt_saida}")),
+        DataCell(Row(
+          children: [
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  tooltip: "Atualizar quantidade",
+                  onPressed: () {
+                    controllerEQuantidade.text =
+                        lastDetails!.rows[index].quantidade!;
+                    CoolAlert.show(
+                      width: 500,
+                      type: CoolAlertType.confirm,
+                      title: "Atenção",
+                      text:
+                          "Digite a quantidade para adicionar ou remover e clique no respectivo botão.",
+                      cancelBtnText: "Cancelar",
+                      confirmBtnText: "Salvar",
+                      backgroundColor: Color(0xff235b69),
+                      confirmBtnColor: Colors.green,
+                      cancelBtnTextStyle: TextStyle(
+                        color: Colors.red,
+                      ),
+                      onCancelBtnTap: () {
+                         Modular.to.pop();
+                      },
+                      context: context,
+                      widget: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              enabled: false,
+                              controller: controllerEQuantidade,
+                              decoration: InputDecoration(
+                                labelText: 'Quantidade atual',
+                                icon: Icon(Icons.gradient),
+                                labelStyle: TextStyle(
+                                    fontSize: 15, color: Color(0xff47afc9)),
+                                errorStyle: TextStyle(
+                                  color: Colors.red,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xff47afc9)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: controllerEAtualizar,
+                              decoration: InputDecoration(
+                                labelText: 'Atualizar quantidade',
+                                icon: Icon(Icons.flip_camera_android),
+                                labelStyle: TextStyle(
+                                    fontSize: 15, color: Color(0xff47afc9)),
+                                errorStyle: TextStyle(
+                                  color: Colors.red,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xff47afc9)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  tooltip: "Remover",
+                                  onPressed: () {
+                                    
+                                  },
+                                  icon: Icon(Icons.remove, color: Colors.red),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                IconButton(
+                                  tooltip: "Adicionar",
+                                  onPressed: () {},
+                                  icon: Icon(Icons.add, color: Colors.green),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.autorenew_rounded,
+                    color: Color.fromARGB(255, 202, 165, 1),
+                  ),
+                );
+              },
+            )
+          ],
+        )),
       ],
     );
   }

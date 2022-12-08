@@ -389,9 +389,6 @@ class _HomeProdutoState extends State<HomeProduto> {
                     label: Text('Último preço'),
                   ),
                   DataColumn(
-                    label: Text('Atualizar'),
-                  ),
-                  DataColumn(
                     label: Text('Editar'),
                   ),
                   DataColumn(
@@ -483,111 +480,6 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
         DataCell(Text("${lastDetails!.rows[index].nome}")),
         DataCell(Text("${lastDetails!.rows[index].dt_ult_compra}")),
         DataCell(Text("${lastDetails!.rows[index].ult_preco}")),
-        DataCell(Row(
-          children: [
-            Builder(
-              builder: (context) {
-                return IconButton(
-                  tooltip: "Atualizar quantidade",
-                  onPressed: () {
-                    controllerEQuantidade.text =
-                        lastDetails!.rows[index].quantidade!;
-                    CoolAlert.show(
-                      width: 500,
-                      type: CoolAlertType.confirm,
-                      title: "Atenção",
-                      text:
-                          "Digite a quantidade para adicionar ou remover e clique no respectivo botão.",
-                      cancelBtnText: "Cancelar",
-                      confirmBtnText: "Salvar",
-                      backgroundColor: Color(0xff235b69),
-                      confirmBtnColor: Colors.green,
-                      cancelBtnTextStyle: TextStyle(
-                        color: Colors.red,
-                      ),
-                      onCancelBtnTap: () {
-                         Modular.to.pop();
-                      },
-                      context: context,
-                      widget: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              enabled: false,
-                              controller: controllerEQuantidade,
-                              decoration: InputDecoration(
-                                labelText: 'Quantidade atual',
-                                icon: Icon(Icons.gradient),
-                                labelStyle: TextStyle(
-                                    fontSize: 15, color: Color(0xff47afc9)),
-                                errorStyle: TextStyle(
-                                  color: Colors.red,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff47afc9)),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: controllerEAtualizar,
-                              decoration: InputDecoration(
-                                labelText: 'Atualizar quantidade',
-                                icon: Icon(Icons.flip_camera_android),
-                                labelStyle: TextStyle(
-                                    fontSize: 15, color: Color(0xff47afc9)),
-                                errorStyle: TextStyle(
-                                  color: Colors.red,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff47afc9)),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  tooltip: "Remover",
-                                  onPressed: () {},
-                                  icon: Icon(Icons.remove, color: Colors.red),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                IconButton(
-                                  tooltip: "Adicionar",
-                                  onPressed: () {},
-                                  icon: Icon(Icons.add, color: Colors.green),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.autorenew_rounded,
-                    color: Color.fromARGB(255, 202, 165, 1),
-                  ),
-                );
-              },
-            )
-          ],
-        )),
         DataCell(
           Row(
             children: [
