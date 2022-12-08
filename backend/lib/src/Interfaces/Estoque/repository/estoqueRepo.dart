@@ -32,7 +32,7 @@ class IEstoqueRepo {
 
   int atualizarQuantidade(ModelEstoque estoque) {
     ResultSet select =
-        _db.select('SELECT quantidade FROM estoque WHERE id =?;', [estoque.id]);
+        _db.select('SELECT quantidade FROM estoque WHERE id_produto =?;', [estoque.id]);
     if (estoque.removerQuantidade!.isEmpty == true) {
       DateTime data_At = DateTime.now();
       String dt_saida = "${data_At.day}/${data_At.month}/${data_At.year}";
@@ -40,7 +40,7 @@ class IEstoqueRepo {
       final valueReq = int.parse(estoque.adicionarQuantidade!);
       final valueTotal = (valueDB + valueReq);
       PreparedStatement adicionarQuantidadeDB =
-          _db.prepare('UPDATE estoque SET dt_saida=?, quantidade=? WHERE id=?');
+          _db.prepare('UPDATE estoque SET dt_saida=?, quantidade=? WHERE id_produto=?');
       adicionarQuantidadeDB.execute([dt_saida, valueTotal, estoque.id]);
       final result = _db.getUpdatedRows();
       adicionarQuantidadeDB.dispose();
@@ -52,7 +52,7 @@ class IEstoqueRepo {
       final valueReq = int.parse(estoque.removerQuantidade!);
       final valueTotal = (valueDB - valueReq);
       PreparedStatement removerQuantidadeDB =
-          _db.prepare('UPDATE estoque SET dt_saida=?, quantidade=? WHERE id=?');
+          _db.prepare('UPDATE estoque SET dt_saida=?, quantidade=? WHERE id_produto=?');
       removerQuantidadeDB.execute([dt_saida, valueTotal, estoque.id]);
       final result = _db.getUpdatedRows();
       removerQuantidadeDB.dispose();

@@ -8,7 +8,7 @@ class EstoqueRepository implements EstoqueInterface{
   final Dio _dio = Dio();
 
   @override
-  Future<bool> alterarQuantidade(int id, String adicionarQuantidade, String removerQuantidade) async {
+  Future<bool> alterarQuantidade(int id, String? adicionarQuantidade, String? removerQuantidade) async {
     bool success = false;
     SharedPreferences _sharedPreferences =
         await SharedPreferences.getInstance();

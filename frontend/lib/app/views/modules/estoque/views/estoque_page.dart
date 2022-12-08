@@ -237,6 +237,34 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                           "Digite a quantidade para adicionar ou remover e clique no respectivo botão.",
                       cancelBtnText: "Cancelar",
                       confirmBtnText: "Salvar",
+                      onConfirmBtnTap: () async {
+                        bool update =
+                            await EstoqueRepository().alterarQuantidade(
+                          lastDetails!.rows[index].id!,
+                          controllerEAdicionarQuantidade.text,
+                          controllerERemoverQuantidade.text,
+                        );
+                        if (update) {
+                          Modular.to.pop();
+                          CoolAlert.show(
+                              width: 500,
+                              context: context,
+                              type: CoolAlertType.success,
+                              backgroundColor: Color(0xff235b69),
+                              confirmBtnColor: Color(0xff235b69),
+                              title: "Sucesso",
+                              text: "Quantidade atualizado com sucesso");
+                          reloadPage();
+                        } else {
+                          Modular.to.pop();
+                          CoolAlert.show(
+                              width: 500,
+                              context: context,
+                              type: CoolAlertType.error,
+                              title: "Falha",
+                              text: "Ocorreu uma falha ao alterar quantidade");
+                        }
+                      },
                       backgroundColor: Color(0xff235b69),
                       confirmBtnColor: Colors.green,
                       cancelBtnTextStyle: TextStyle(
@@ -312,82 +340,82 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  tooltip: "Remover quantidade",
-                                  onPressed: () async {
-                                    bool update = await EstoqueRepository()
-                                        .alterarQuantidade(
-                                      lastDetails!.rows[index].id!,
-                                      controllerEAdicionarQuantidade.text,
-                                      controllerERemoverQuantidade.text,
-                                    );
-                                    if (update) {
-                                      Modular.to.pop();
-                                      CoolAlert.show(
-                                          width: 500,
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          backgroundColor: Color(0xff235b69),
-                                          confirmBtnColor: Color(0xff235b69),
-                                          title: "Sucesso",
-                                          text:
-                                              "Quantidade atualizado com sucesso");
-                                      reloadPage();
-                                    } else {
-                                      Modular.to.pop();
-                                      CoolAlert.show(
-                                          width: 500,
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          title: "Falha",
-                                          text:
-                                              "Ocorreu uma falha ao alterar quantidade");
-                                    }
-                                  },
-                                  icon: Icon(Icons.remove, color: Colors.red),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                IconButton(
-                                  tooltip: "Adicionar",
-                                  onPressed: () async {
-                                    bool update = await EstoqueRepository()
-                                        .alterarQuantidade(
-                                      lastDetails!.rows[index].id!,
-                                      controllerEAdicionarQuantidade.text,
-                                      controllerERemoverQuantidade.text,
-                                    );
-                                    if (update) {
-                                      Modular.to.pop();
-                                      CoolAlert.show(
-                                          width: 500,
-                                          context: context,
-                                          type: CoolAlertType.success,
-                                          backgroundColor: Color(0xff235b69),
-                                          confirmBtnColor: Color(0xff235b69),
-                                          title: "Sucesso",
-                                          text:
-                                              "Quantidade atualizado com sucesso");
-                                      reloadPage();
-                                    } else {
-                                      Modular.to.pop();
-                                      CoolAlert.show(
-                                          width: 500,
-                                          context: context,
-                                          type: CoolAlertType.error,
-                                          title: "Falha",
-                                          text:
-                                              "Ocorreu uma falha ao alterar quantidade");
-                                    }
-                                  },
-                                  icon: Icon(Icons.add, color: Colors.green),
-                                )
-                              ],
-                            )
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     IconButton(
+                            //       tooltip: "Remover",
+                            //       onPressed: () async {
+                            //         bool update = await EstoqueRepository()
+                            //             .alterarQuantidade(
+                            //           lastDetails!.rows[index].id!,
+                            //           controllerEAdicionarQuantidade.text,
+                            //           controllerERemoverQuantidade.text,
+                            //         );
+                            //         if (update) {
+                            //           Modular.to.pop();
+                            //           CoolAlert.show(
+                            //               width: 500,
+                            //               context: context,
+                            //               type: CoolAlertType.success,
+                            //               backgroundColor: Color(0xff235b69),
+                            //               confirmBtnColor: Color(0xff235b69),
+                            //               title: "Sucesso",
+                            //               text:
+                            //                   "Quantidade atualizado com sucesso");
+                            //           reloadPage();
+                            //         } else {
+                            //           Modular.to.pop();
+                            //           CoolAlert.show(
+                            //               width: 500,
+                            //               context: context,
+                            //               type: CoolAlertType.error,
+                            //               title: "Falha",
+                            //               text:
+                            //                   "Ocorreu uma falha ao alterar quantidade");
+                            //         }
+                            //       },
+                            //       icon: Icon(Icons.remove, color: Colors.red),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 15,
+                            //     ),
+                            //     IconButton(
+                            //       tooltip: "Adicionar",
+                            //       onPressed: () async {
+                            //         bool update = await EstoqueRepository()
+                            //             .alterarQuantidade(
+                            //           lastDetails!.rows[index].id!,
+                            //           controllerEAdicionarQuantidade.text,
+                            //           controllerERemoverQuantidade.text,
+                            //         );
+                            //         if (update) {
+                            //           Modular.to.pop();
+                            //           CoolAlert.show(
+                            //               width: 500,
+                            //               context: context,
+                            //               type: CoolAlertType.success,
+                            //               backgroundColor: Color(0xff235b69),
+                            //               confirmBtnColor: Color(0xff235b69),
+                            //               title: "Sucesso",
+                            //               text:
+                            //                   "Quantidade atualizado com sucesso");
+                            //           reloadPage();
+                            //         } else {
+                            //           Modular.to.pop();
+                            //           CoolAlert.show(
+                            //               width: 500,
+                            //               context: context,
+                            //               type: CoolAlertType.error,
+                            //               title: "Falha",
+                            //               text:
+                            //                   "Ocorreu uma falha ao alterar quantidade");
+                            //         }
+                            //       },
+                            //       icon: Icon(Icons.add, color: Colors.green),
+                            //     )
+                            //   ],
+                            // )
                           ],
                         ),
                       ),
