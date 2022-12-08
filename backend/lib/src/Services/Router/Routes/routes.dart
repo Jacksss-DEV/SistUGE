@@ -1,4 +1,5 @@
 import 'package:backend/src/Interfaces/Auth/controller/authController.dart';
+import 'package:backend/src/Interfaces/Estoque/controller/estoqueController.dart';
 import 'package:backend/src/Interfaces/Produtos/controller/produtoController.dart';
 import 'package:backend/src/Interfaces/Usuarios/controller/usuariosController.dart';
 import 'package:backend/src/Interfaces/swagerHandler.dart';
@@ -10,6 +11,7 @@ class ModuleRoutes extends Module {
         Route.resource(IProdutoController()),
         Route.resource(IUsuarioController()),
         Route.resource(AuthController()),
+        Route.resource(IEstoqueController()),
         Route.get('/documentation/**', SwaggerHandler),
       ];
 }
