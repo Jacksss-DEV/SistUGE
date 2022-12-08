@@ -24,7 +24,7 @@ class HomeProduto extends StatefulWidget {
 }
 
 class _HomeProdutoState extends State<HomeProduto> {
-  var rowsPerPage = AdvancedPaginatedDataTable.defaultRowsPerPage;
+  var rowsPerPage = 15;
   final source = ExampleSource();
   var sortIndex = 0;
   var sortAsc = true;
@@ -388,6 +388,7 @@ class _HomeProdutoState extends State<HomeProduto> {
                   DataColumn(
                     label: Text('Último preço'),
                   ),
+                  
                   DataColumn(
                     label: Text('Editar'),
                   ),
