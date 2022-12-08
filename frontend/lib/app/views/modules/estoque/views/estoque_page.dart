@@ -20,7 +20,7 @@ class EstoquePage extends StatefulWidget {
 }
 
 class _EstoquePageState extends State<EstoquePage> {
-  var rowsPerPage = AdvancedPaginatedDataTable.defaultRowsPerPage;
+  var rowsPerPage = 15;
   var sortIndex = 0;
   var sortAsc = true;
   final source = ExampleSource();
