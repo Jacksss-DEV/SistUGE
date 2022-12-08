@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:backend/src/Interfaces/Auth/authResources.dart';
 import 'package:backend/src/Interfaces/Estoque/repository/estoqueRepo.dart';
 import 'package:backend/src/Interfaces/Estoque/viewModels/modelEstoque.dart';
 import 'package:backend/src/Interfaces/Produtos/viewModels/queryParams.dart';
@@ -35,7 +36,12 @@ class IEstoqueController extends Resource {
     );
     // print(estoque.removerQuantidade!.isEmpty);
     final result = _repository.atualizarQuantidade(estoque);
-    return Response(200, body: jsonEncode(result));
+    if (result != 1) {
+      final map = {"Error": "Deu erro"};
+      return Response(500, body: jsonEncode(map));
+    }
+    final map = {"Sucesso": "Deu certo"};
+    return Response(200, body: jsonEncode(map));
   }
 
   @override
