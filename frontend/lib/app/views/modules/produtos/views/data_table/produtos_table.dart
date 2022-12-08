@@ -457,7 +457,8 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
       decimalSeparator: ',',
       thousandSeparator: '.',
     );
-    final controllerEAtualizar = TextEditingController();
+    final controllerERemover = TextEditingController();
+    final controllerEAdicionar = TextEditingController();
     final controllerEEntrada = TextEditingController();
     final controllerESaida = TextEditingController();
 
@@ -645,7 +646,8 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                               controllerELocalidade.text,
                               controllerEDtUltCompra.text,
                               controllerEUltPreco.text,
-                              controllerEAtualizar.text,
+                              controllerERemover.text,
+                              controllerEAdicionar.text,
                               controllerEEntrada.text,
                               controllerESaida.text,
                             );

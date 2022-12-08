@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../estoque/models/estoque_model.dart';
 import '../interface/produto_interface.dart';
 import '../models/produto_model.dart';
 
@@ -96,7 +97,8 @@ class ProdutoRepository implements ProdutoInterface {
       String localidade,
       String dataUltCompra,
       String ultPreco,
-      String atualizar,
+      String remover,
+      String adicionar,
       String dt_entrada,
       String dt_saida) async {
     bool success = false;
@@ -105,7 +107,13 @@ class ProdutoRepository implements ProdutoInterface {
 
     var tokenCreate = await _sharedPreferences.getString('token');
     var data = ProdutoModel(
-        nome: nome, dt_ult_compra: dataUltCompra, ult_preco: ultPreco, atualizar: atualizar, quantidade: quantidade, localidade: localidade);
+        nome: nome,
+        dt_ult_compra: dataUltCompra,
+        ult_preco: ultPreco,
+        remover: remover,
+        adicionar: adicionar,
+        quantidade: quantidade,
+        localidade: localidade);
 
     final apiResponse = await _dio.put(
       'http://localhost:3333/produtos/${id}',

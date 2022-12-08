@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../produtos/models/produto_model.dart';
 import '../../produtos/repositories/produto_repository.dart';
 import '../../produtos/stores/product_store.dart';
+import '../repositories/estoque_repository.dart';
 
 class EstoquePage extends StatefulWidget {
   const EstoquePage({super.key});
@@ -191,7 +192,8 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
     final controllerELocalidade = TextEditingController();
     final controllerEDtUltCompra = TextEditingController();
     final controllerEUltPreco = TextEditingController();
-    final controllerEAtualizar = TextEditingController();
+    final controllerERemoverQuantidade = TextEditingController();
+    final controllerEAdicionarQuantidade = TextEditingController();
     final controllerEEntrada = TextEditingController();
     final controllerESaida = TextEditingController();
 
@@ -241,7 +243,7 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                         color: Colors.red,
                       ),
                       onCancelBtnTap: () {
-                         Modular.to.pop();
+                        Modular.to.pop();
                       },
                       context: context,
                       widget: Form(
@@ -275,10 +277,29 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                               height: 20,
                             ),
                             TextFormField(
-                              controller: controllerEAtualizar,
+                              controller: controllerERemoverQuantidade,
                               decoration: InputDecoration(
-                                labelText: 'Atualizar quantidade',
-                                icon: Icon(Icons.flip_camera_android),
+                                labelText: 'Remover quantidade',
+                                icon: Icon(Icons.remove),
+                                labelStyle: TextStyle(
+                                    fontSize: 15, color: Color(0xff47afc9)),
+                                errorStyle: TextStyle(
+                                  color: Colors.red,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xff47afc9)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: controllerEAdicionarQuantidade,
+                              decoration: InputDecoration(
+                                labelText: 'Adicionar quantidade',
+                                icon: Icon(Icons.add),
                                 labelStyle: TextStyle(
                                     fontSize: 15, color: Color(0xff47afc9)),
                                 errorStyle: TextStyle(
@@ -295,9 +316,36 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
-                                  tooltip: "Remover",
-                                  onPressed: () {
-                                    
+                                  tooltip: "Remover quantidade",
+                                  onPressed: () async {
+                                    bool update = await EstoqueRepository()
+                                        .alterarQuantidade(
+                                      lastDetails!.rows[index].id!,
+                                      controllerEAdicionarQuantidade.text,
+                                      controllerERemoverQuantidade.text,
+                                    );
+                                    if (update) {
+                                      Modular.to.pop();
+                                      CoolAlert.show(
+                                          width: 500,
+                                          context: context,
+                                          type: CoolAlertType.success,
+                                          backgroundColor: Color(0xff235b69),
+                                          confirmBtnColor: Color(0xff235b69),
+                                          title: "Sucesso",
+                                          text:
+                                              "Quantidade atualizado com sucesso");
+                                      reloadPage();
+                                    } else {
+                                      Modular.to.pop();
+                                      CoolAlert.show(
+                                          width: 500,
+                                          context: context,
+                                          type: CoolAlertType.error,
+                                          title: "Falha",
+                                          text:
+                                              "Ocorreu uma falha ao alterar quantidade");
+                                    }
                                   },
                                   icon: Icon(Icons.remove, color: Colors.red),
                                 ),
@@ -306,7 +354,36 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                                 ),
                                 IconButton(
                                   tooltip: "Adicionar",
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    bool update = await EstoqueRepository()
+                                        .alterarQuantidade(
+                                      lastDetails!.rows[index].id!,
+                                      controllerEAdicionarQuantidade.text,
+                                      controllerERemoverQuantidade.text,
+                                    );
+                                    if (update) {
+                                      Modular.to.pop();
+                                      CoolAlert.show(
+                                          width: 500,
+                                          context: context,
+                                          type: CoolAlertType.success,
+                                          backgroundColor: Color(0xff235b69),
+                                          confirmBtnColor: Color(0xff235b69),
+                                          title: "Sucesso",
+                                          text:
+                                              "Quantidade atualizado com sucesso");
+                                      reloadPage();
+                                    } else {
+                                      Modular.to.pop();
+                                      CoolAlert.show(
+                                          width: 500,
+                                          context: context,
+                                          type: CoolAlertType.error,
+                                          title: "Falha",
+                                          text:
+                                              "Ocorreu uma falha ao alterar quantidade");
+                                    }
+                                  },
                                   icon: Icon(Icons.add, color: Colors.green),
                                 )
                               ],
