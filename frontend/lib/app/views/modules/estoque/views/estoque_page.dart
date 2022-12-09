@@ -234,7 +234,7 @@ class ExampleSource extends AdvancedDataTableSource<ProdutoModel> {
                       type: CoolAlertType.confirm,
                       title: "Atenção",
                       text:
-                          "Digite a quantidade para adicionar ou remover e clique no respectivo botão.",
+                          "Digite a quantidade para adicionar ou remover nos respectivos campos abaixo.",
                       cancelBtnText: "Cancelar",
                       confirmBtnText: "Salvar",
                       onConfirmBtnTap: () async {

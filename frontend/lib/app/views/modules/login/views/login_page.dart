@@ -111,15 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
-                                      // errorText: formStore.error.email,
                                       labelText: 'E-mail',
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          Icons.email,
-                                          color: Colors.grey[300],
-                                        ),
-                                        onPressed: () {},
-                                      ),
                                       labelStyle:
                                           TextStyle(color: Colors.grey[300]),
                                       border: InputBorder.none),
@@ -207,42 +199,44 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           SizedBox(width: 20),
-                          Observer(builder: (_) {
-                            return InkWell(
-                              onTap: () {
-                                if (_formKey.currentState!.validate()) {
-                                  logar();
-                                } else {
-                                  return null;
-                                }
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color.fromARGB(255, 5, 108, 204),
-                                        Color.fromARGB(255, 40, 94, 212)
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Entrar',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
+                          Observer(
+                            builder: (_) {
+                              return InkWell(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    logar();
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 170,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          Color.fromARGB(255, 5, 108, 204),
+                                          Color.fromARGB(255, 40, 94, 212)
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Entrar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            },
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -266,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
     if (response.statusCode == 200) {
-      Modular.to.navigate('/home');
+      Modular.to.navigate('/home/estoque');
       String token = response.data['accessToken'].first;
       await _sharedPreferences.setString('token', '$token');
       var log = await _sharedPreferences.get('token');
